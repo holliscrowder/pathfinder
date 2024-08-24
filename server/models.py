@@ -1,21 +1,15 @@
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from config import db, bcrypt
 
-# Models go here!
+# Models go here!s
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer(), primary_key = True)
     username = db.Column(db.String(), unique = True, nullable = False)
-    email = db.Column(db.String(), unique = True, nullable = False)
-    sex = db.Column(db.String())
-    age = db.Column(db.Integer())
     _password_hash = db.Column(db.String)
-
-    __table_args__ = (db.CheckConstraint("sex = M OR sex = F OR sex = I"), db.CheckConstraint("age > 0 AND age < 130"))
 
     # authentication
     @hybrid_property
@@ -33,8 +27,7 @@ class User(db.Model, SerializerMixin):
         )
 
     # relationships
-    submissions = db.relationship("Submission", back_populates = "user", cascade = "all, delete")
-    questionnaires = association_proxy("submissions", "questionnaires")
+    submissions = db.relationship("Goal", back_populates = "user", cascade = "all, delete")
 
     # validations
     @validates("username")
@@ -42,92 +35,51 @@ class User(db.Model, SerializerMixin):
         if not isinstance(username, str):
             raise ValueError("Username must be a string.")
         if len(username) > 100:
-            raise ValueError("Username can't be over 100 characters.")
+            raise ValueError("Username must be 100 or fewer characters.")
         return username
+
+    # serialization rules
+    serialize_rules = ("-goals",)
+
+    def __repr__(self):
+        return f"<User {self.id}: [username] >"
+
+class Goal(db.Model, SerializerMixin):
+    __tablename__ = "goals"
+
+    id = db.Column(db.Integer(), primary_key = True)
+    title = db.Column(db.String(), nullable = False)
+    description = db.Column(db.String(), nullable = False)
+    status = db.Column(db.String(), nullable = False)
+
+    __table_args__ = (db.CheckConstraint("status = In Progress OR status = Completed OR status = Not Started"))
+
+    # relationships
+    user = db.relationship("User", back_populates = "goals")
+
+    # validations
+    @validates("title")
+    def validate_title(self, _, title):
+        if not isinstance(title, str):
+            raise ValueError("Title must be a string.")
+        if len(title) > 100:
+            raise ValueError("Goal title must be 100 characters or fewer.")
+        return title
     
-    @validates("email")
-    def validate_email(self, _, email):
-        if email.find("@"):
-            return email.lower()
-        else:
-            raise ValueError("Email does not contain domain.")
+    @validates("description")
+    def validate_description(self, _, description):
+        if not isinstance(description, str):
+            raise ValueError("Description must be a string.")
+        if len(description) > 300:
+            raise ValueError("Goal description must be 300 characters or fewer.")
         
-    @validates("age")
-    def validate_age(self, _, age):
-        if age and (age < 0 or age > 130 or not isinstance(age, int)):
-            return ValueError("Age must be an integer between 0 and 130.")
-        return age
-    
-    @validates("sex")
-    def validate_sex(self, _, sex):
-        if sex and sex.upper() not in ("M", "F", "I"):
-            return ValueError("Sex must be either M, F, or I.")
-        return sex.upper()
-
-    # serialization rules
-    serialize_rules = ("-submissions",)
+    @validates("status")
+    def validate_status(self, _, status):
+        if not isinstance(status, str):
+            raise ValueError("Status must be a string.")
+        if status not in("In Progress", "Completed", "Not Started"):
+            raise ValueError("Goal status must be either In Progress, Completed, or Not Started.")
 
     def __repr__(self):
-        return f"<User {self.id}: [username] {self.username} [email] {self.email} [age] {self.age} [sex] {self.sex} >"
-
-class Question(db.Model, SerializerMixin):
-    __tablename__ = "questions"
-
-    id = db.Column(db.Integer(), primary_key = True)
-    question_text = db.Column(db.String(), unique = True, nullable = False)
-
-    # relationships
-    questionnaires = db.relationship("Questionnaire", back_populates = "question")
-    users = association_proxy("questionnaires", "question")
-
-    # serialization rules
-    serialize_rules = ("-questionnaires",)
-
-    def __repr__(self):
-        return f"<Question {self.id}: [text] {self.question_text} >"
-
-class Questionnaire(db.Model, SerializerMixin):
-    __tablename__ = "questionnaires"
-
-    id = db.Column(db.Integer(), primary_key = True)
-    # user_id = db.Column(db.Integer(), db.ForeignKey("users.id"))
-    question_id = db.Column(db.Integer(), db.ForeignKey("questions.id"))
-    submission_id = db.Column(db.Integer(), db.ForeignKey("submissions.id"))
-    score = db.Column(db.Integer())
-    # created_on = db.Column(db.DateTime(), server_default = db.func.now())
-    # updated_on = db.Column(db.DateTime(), server_default = db.func.now(), server_onupdate = db.func.now())
-
-    # relationships
-    question = db.relationship("Question", back_populates = "questionnaires")
-    submission = db.relationship("Submission", back_populates = "questionnaires")
-    user = association_proxy("submission", "user")
-
-    # serialization rules
-    serialize_rules = ("-user", "-question", "-submission")
-    # serialize_rules = ("-user",)
-
-    def __repr__(self):
-        return f"<Questionnaire {self.id}: [question_id] {self.question_id} [score] {self.score}[submission] {self.submission} >"
-
-class Submission(db.Model, SerializerMixin):
-    __tablename__ = "submissions"
-
-    id = db.Column(db.Integer(), primary_key = True)
-    user_id = db.Column(db.Integer(), db.ForeignKey("users.id"))
-    checked = db.Column(db.Boolean())
-    created_on = db.Column(db.DateTime(), server_default = db.func.now())
-    updated_on = db.Column(db.DateTime(), server_default = db.func.now())
-
-    # relationships
-    user = db.relationship("User", back_populates = "submissions")
-    questionnaires = db.relationship("Questionnaire", back_populates = "submission", cascade = "all, delete")
-
-    # serialization rules
-    serialize_rules = ("-user", "-questionnaire")
-
-    def __repr__(self):
-        return f"<Survey {self.id}: [user_id] {self.user_id} [checked] {self.checked} [created_on] {self.created_on} [updated_on] {self.updated_on} >"
-    
-
-
+        return f"<Goal {self.id}: [title] {self.title} [description] {self.description} [status] {self.status}>"
     

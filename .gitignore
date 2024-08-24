@@ -63,6 +63,7 @@ __pycache__
 *.db
 instance
 .vscode
+data
 
 # Session env
 .env
