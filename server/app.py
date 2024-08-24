@@ -11,7 +11,7 @@ from sqlalchemy.exc import IntegrityError
 from config import app, db, api
 
 # Add your model imports
-from models import User, Question, Questionnaire, Submission
+from models import User, Goal
 
 # Views go here!
 @app.route('/')
@@ -26,38 +26,27 @@ class Signup(Resource):
     def post(self):
         json = request.get_json()
         try:
-            user_test_email = User.query.filter_by(email=json.get("email")).first()
+            # confirm username is available
             user_test_username = User.query.filter_by(username=json.get("username")).first()
-            if user_test_email:
-                print(user_test_email)
-                return make_response({"user_status": "Invalid email, please try again."}, 401)
-            elif user_test_username:
+            if user_test_username:
                 return make_response({"user_status": "Invalid username, please try again."}, 401)
             
-            elif not User.query.filter_by(email = json.get("email")).first() and not User.query.filter_by(username = json.get("username")).first():
-                # create new user
-                user = User(
-                    username = json.get("username"),
-                    email = json.get("email")
-                )
-                if json.get("age"):
-                    user.age = int(json.get("age"))
-                if json.get("sex"):
-                    user.sex = json.get("sex")
-                user.password_hash = json.get("password")
+            # create new user
+            user = User(
+                username = json.get("username")
+            )
+            user.password_hash = json.get("password")
 
-                # update session info
-                db.session.add(user)
-                db.session.commit()
-                session["user_id"] = user.id
-                
-                # return user info
-                user_response = jsonify(user.to_dict())
-                return make_response(user_response, 201)
+            # update session info
+            db.session.add(user)
+            db.session.commit()
+            session["user_id"] = user.id
+            
+            # return user info
+            user_response = jsonify(user.to_dict())
+            return make_response(user_response, 201)
             
         # check for errors
-        except IntegrityError:
-            return make_response({"error": "Database relational integrity error"}, 422)
         except ValueError:
             return make_response({"error": "User information value invalid"}, 422)
 
@@ -65,7 +54,7 @@ class CheckSession(Resource):
     def get(self):
         # check if session has user ID
         if session.get("user_id"):
-            # create user based on unique user ID
+            # find user
             user = User.query.filter(User.id == session["user_id"]).first()
             
             # return user info
@@ -77,9 +66,9 @@ class CheckSession(Resource):
 class Login(Resource):
     def post(self):
         # set session ID
-        email = request.get_json().get("email")
+        username = request.get_json().get("username")
         password = request.get_json().get("password")
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(username=username).first()
         if user and user.authenticate(password):
             session["user_id"] = user.id
             user_response = jsonify(user.to_dict())
@@ -89,7 +78,7 @@ class Login(Resource):
             
         # check for errors
         else:
-            return make_response({"email_status": "Unauthorized email and/or password"}, 401)
+            return make_response({"username": "Unauthorized username and/or password"}, 401)
         
 class Logout(Resource):
     def delete(self):
@@ -100,17 +89,6 @@ class Logout(Resource):
             # return empty response
             return make_response({"message": "204: No Content"}, 204)
         return make_response({"error": "User not logged in"}, 401)
-
-class Questions(Resource):
-    
-    # retrieve all questions
-    def get(self):
-        # gather all questions
-        questions = [question.to_dict() for question in Question.query.all()]
-
-        # return questions
-        questions_response = jsonify(questions)
-        return make_response(questions_response, 200)
     
 class Users(Resource):
 
@@ -126,14 +104,8 @@ class Users(Resource):
         print(user_data)
         try:
             # update user info
-            if user_data.get("email"):
-                user.email = user_data.get("email")
             if user_data.get("username"):
                 user.username = user_data.get("username")
-            if user_data.get("age"):
-                user.age = user_data.get("age")
-            if user_data.get("sex"):
-                user.sex = user_data.get("sex")
             if user_data.get("currentPassword") and user_data.get("newPassword"):
                 check_current_password = user_data.get("currentPassword")
                 if user.authenticate(check_current_password):
@@ -145,8 +117,7 @@ class Users(Resource):
 
             # return updated user info
             return make_response(user_response, 201)
-        except IntegrityError:
-            return make_response({"error": "Database relational integrity error"}, 422)
+
         except ValueError:
             return make_response({"error": "User information value invalid"}, 422)
 
@@ -157,13 +128,13 @@ class Users(Resource):
 
         # check that user details submitted in the 'leave' form match the session user details
         user_data = request.get_json()
-        form_email = user_data.get("email")
+        form_username = user_data.get("username")
         form_password = user_data.get("password")
 
         if not user:
             return make_response({"error": "User not found"}, 404)
         
-        elif not user.authenticate(form_password) or user.email != form_email.lower():
+        elif not user.authenticate(form_password) or user.username != form_username:
             return make_response({"error": "User information not authenticated."}, 401)
         
         # delete user
@@ -176,63 +147,82 @@ class Users(Resource):
         # return empty message
         return make_response({"message": "204: No content"}, 204)
     
-class Questionnaires(Resource):
+class Goals(Resource):
+    # add new goal
     def post(self):
         if not session['user_id']:
             return make_response({"error": "Not authorized."}, 401)
-        questionnaires = request.get_json()
-        print(questionnaires)
-        new_questionnaires = []
+        goal = request.get_json()
         try:
-            new_submission = Submission(user_id = session["user_id"], checked = questionnaires["checked"])
-            db.session.add(new_submission)
+            new_goal = Goal(user_id = session["user_id"], title = goal["title"], description = goal["description"], status = goal["status"])
+            db.session.add(new_goal)
             db.session.commit()
 
-            i = Question.query.first().id
-            # record questionnaires for each question except for the boolean "checked"
-            for questionnaire in questionnaires:
-                if questionnaire != "checked":
-                    question_id = f"{i}"
-                    score = questionnaires[questionnaire]
-                    submission_id = new_submission.id
-
-                    new_questionnaire = Questionnaire(question_id = question_id, score = score, submission_id = submission_id)
-                    db.session.add(new_questionnaire)
-                    db.session.commit()
-                    new_questionnaires.append(new_questionnaire)
-                i += 1
-            questionnaires_response = jsonify([questionnaire.to_dict() for questionnaire in new_questionnaires])
-
-            return make_response(questionnaires_response, 201)      
+            goal_response = jsonify(new_goal.to_dict())
+            return make_response(goal_response, 201)    
+          
         # check for errors
-        except IntegrityError as e:
+        except ValueError as e:
             print(e)
-            return make_response({"error": "Database relational integrity error"}, 422)
-        
+            return make_response({"error": "Value error"}, 422)
+    
+    # view goals
     def get(self):
         if not session.get("user_id"):
             return make_response({"error": "Not authorized."}, 401)
         
-        # create questionnaires array of all available questionnaires for the user
+        # create goals array of all available goals for the user
         user = User.query.filter(User.id == session.get("user_id")).first()
-        questionnaires = user.questionnaires
+        goals = user.goals
 
         # format for JSON response
-        if questionnaires:
-            questionnaires_response = jsonify([[questionnaire.to_dict(rules=("submission.created_on","-submission.questionnaires", "-submission.user_id", "-submission.id", "-submission.updated_on")) for questionnaire in group ] for group in questionnaires])
-            return make_response(questionnaires_response, 200)
+        if goals:
+            goals_response = jsonify([goal.to_dict() for goal in goals])
+            return make_response(goals_response, 200)
         else:
-            return make_response({"error": "No content found for user id"}, 401)
+            return make_response({"error": "No content found for user goals"}, 401)
+    
+    # update goal status
+    def patch(self):
+        if not session.get("user_id"):
+            return make_response({"error": "Not authorized"}, 401)
         
+        updated_goal = request.get_json()
 
+        # find goal
+        goal = Goal.query.filter(Goal.id == updated_goal["id"]).first()
+
+        if goal:
+            if updated_goal.get_json("status"):
+                goal.status = updated_goal.get_jsont("status")
+
+            updated_goal_response = jsonify(goal.to_dict())
+            return make_response(updated_goal_response, 201)
+        else:
+            return make_response({"error": "Goal not found"}, 404)
+
+    # delete goal
+    def delete(self):
+        if not session.get("user_id"):
+            return make_response({"error": "Not authorized"}, 401)
+        
+        delete_goal = request.get_json()
+        # find goal
+        goal = Goal.query.filter(Goal.id == delete_goal["id"]).first()
+        if not goal:
+            return make_response({"error": "Goal not found"}, 404)
+        
+        db.session.delete(goal)
+        db.session.commit()
+
+        return make_response({"message": "204: No content"}, 204)
 
 api.add_resource(Signup, "/api/signup", endpoint = "signup")
 api.add_resource(CheckSession, "/api/check_session", endpoint = "check_session")
 api.add_resource(Login, "/api/login", endpoint = "login")
 api.add_resource(Logout, "/api/logout", endpoint = "logout")
-api.add_resource(Questions, "/api/questions", endpoint = "questions")
 api.add_resource(Users, "/api/users", endpoint = "users")
-api.add_resource(Questionnaires, "/api/questionnaires", endpoint = "questionnaires")
+api.add_resource(Goals, "/api/goals", endpoint = "goals")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

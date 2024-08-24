@@ -52,8 +52,6 @@ class Goal(db.Model, SerializerMixin):
     description = db.Column(db.String(), nullable = False)
     status = db.Column(db.String(), nullable = False)
 
-    __table_args__ = (db.CheckConstraint("status = In Progress OR status = Completed OR status = Not Started"))
-
     # relationships
     user = db.relationship("User", back_populates = "goals")
 
