@@ -1,0 +1,41 @@
+.App {
+    background: radial-gradient(#feabda, #feabda, #fe6b41);
+    height: min(400%, 2500px);
+    position: absolute; top: 0; left: 0; bottom: 0;
+    width: min(100%, 2000px);
+  }
+
+.NavBar {
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+    /* background-color: transparent; */
+    font-weight: bold;
+}
+
+.Outlet {
+    padding: 10px 10px 10px 10px;
+    /* text-align: left; */
+    color: 360A05;
+}
+
+.welcome {
+    position: absolute; left: 10%;
+    margin-top: min(24px, 10%);
+}
+
+.logout {
+    position: absolute; right: 10%;
+    margin-top: min(24px, 10%);
+}
+
+button {
+    background-color: #dc3895;
+    color: white;
+    border: 0.5px solid;
+    box-shadow: rgba(180, 92, 124, 0.5) 0 2px 5px 0;
+    cursor: pointer;
+}
+
+.button:hover {
+  background-color: #f7fafa;
+}
