@@ -1,0 +1,12 @@
+.path_card {
+    display: flex;
+    flex-direction: column;
+    width: max(50%, 500px);
+    height: max(50%, 500px);
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    /* justify-content: center; */
+    border-radius: 10px;
+}

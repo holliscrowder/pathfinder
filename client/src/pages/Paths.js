@@ -1,8 +1,9 @@
 import React, { useEffect, useState }from "react";
 import "./Paths.css";
+import PathCardList from "../components/PathCardList";
 
 export default function Paths () {
-    const [goals, setGoals] = useState("");
+    const [goals, setGoals] = useState([]);
 
     useEffect(() => {
       fetch("/api/goals")
@@ -24,9 +25,7 @@ export default function Paths () {
     return (
         <div className = "paths_screen_container">
             <div className = "paths_parent_container">
-                <div className = "paths_container">
-
-                </div>
+                    <PathCardList className = "path_card_list" goals={goals} setGoals={setGoals}/>
             </div>
         </div>
     )
