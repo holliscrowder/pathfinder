@@ -42,7 +42,7 @@ class Signup(Resource):
             session["user_id"] = user.id
             
             # return user info
-            user_response = jsonify(user.to_dict())
+            user_response = jsonify(user.to_dict("-goals"))
             return make_response(user_response, 201)
             
         # check for errors
@@ -153,7 +153,7 @@ class Goals(Resource):
             return make_response({"error": "Not authorized."}, 401)
         goal = request.get_json()
         try:
-            new_goal = Goal(user_id = session["user_id"], title = goal["title"], description = goal["description"], status = goal["status"])
+            new_goal = Goal(user_id = session["user_id"], title = goal["title"], description = goal["description"], status = goal["status"], topic = goal["topic"])
             db.session.add(new_goal)
             db.session.commit()
 

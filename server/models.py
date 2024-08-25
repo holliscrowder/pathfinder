@@ -11,6 +11,12 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String(), unique = True, nullable = False)
     _password_hash = db.Column(db.String)
 
+    # relationships
+    goals = db.relationship("Goal", back_populates = "user", cascade = "all, delete")
+
+    # serialization rules
+    serialize_rules = ("-goals",)
+
     # authentication
     @hybrid_property
     def password_hash(self):
@@ -24,10 +30,7 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode("utf-8")
-        )
-
-    # relationships
-    submissions = db.relationship("Goal", back_populates = "user", cascade = "all, delete")
+            )
 
     # validations
     @validates("username")
@@ -51,6 +54,8 @@ class Goal(db.Model, SerializerMixin):
     title = db.Column(db.String(), nullable = False)
     description = db.Column(db.String(), nullable = False)
     status = db.Column(db.String(), nullable = False)
+    topic = db.Column(db.String(), nullable = False)
+    user_id = db.Column(db.Integer(), db.ForeignKey("users.id"))
 
     # relationships
     user = db.relationship("User", back_populates = "goals")
@@ -70,6 +75,7 @@ class Goal(db.Model, SerializerMixin):
             raise ValueError("Description must be a string.")
         if len(description) > 300:
             raise ValueError("Goal description must be 300 characters or fewer.")
+        return description
         
     @validates("status")
     def validate_status(self, _, status):
@@ -77,7 +83,16 @@ class Goal(db.Model, SerializerMixin):
             raise ValueError("Status must be a string.")
         if status not in("In Progress", "Completed", "Not Started"):
             raise ValueError("Goal status must be either In Progress, Completed, or Not Started.")
-
+        return status
+        
+    @validates("topic")
+    def validate_topic(self, _, topic):
+        if not isinstance(topic, str):
+            raise ValueError("Topic must be a string.")
+        if topic not in("Career", "Financial", "Health & Fitness", "Personal", "Hobbies & Leisure", "Spiritual", "Community", "Other"):
+            raise ValueError("Topic must be one of Career, Financial, Health & Fitness, Personal, Hobbies & Leisure, Spiritual, Community, Other")
+        return topic
+    
     def __repr__(self):
-        return f"<Goal {self.id}: [title] {self.title} [description] {self.description} [status] {self.status}>"
+        return f"<Goal {self.id}: [title] {self.title} [description] {self.description} [status] {self.status}> [topic] {self.topic}"
     
