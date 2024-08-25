@@ -7,13 +7,16 @@ function Signup() {
 
     return (
         <>
+        <br></br>
         <div className = "signup_header">
             <h2>Want to join? Sign up below!</h2>
             <p>Enter a valid email and choose a username.</p>
         </div>
+        <br></br>
         <main>
             <SignupForm user={user} setUser={setUser} className = "signup"/>
         </main>
+        <br></br>
         <div className = "login_instead">
             <p>Already a member?</p>
             <Link to="/login">Login</Link>

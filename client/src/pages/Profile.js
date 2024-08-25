@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Profile.css"
+// import "./Profile.css"
 import { useOutletContext } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import { Link } from "react-router-dom";
@@ -38,7 +38,8 @@ function Profile() {
 
 if (isUpdated === false) {
     return (
-        <>
+      <div className = "parent_profile_container"> 
+        <div className = "profile_container">
             <div className = "profile_header">
                 <h2>User Profile</h2>
             </div>
@@ -56,7 +57,8 @@ if (isUpdated === false) {
               </Link>
               <br />
             </div>
-        </>
+        </div>
+      </div>
       );
     }
   else if (!user) {

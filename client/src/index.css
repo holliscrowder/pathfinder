@@ -6,8 +6,8 @@
 } */
 
 code {
-  font-family: "Helvetica",
-    monospace;
+  font-family: monospace;
+  font: monospace;
 }
 
 * {

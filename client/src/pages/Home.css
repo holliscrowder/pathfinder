@@ -11,15 +11,13 @@
     position: fixed; 
     overflow: hidden;
     top: 0; left: 0; 
-    
+    z-index: 1;
 }
 
 .parent_welcome_container {
     display: flex;
     justify-content: center;
-    margin-top: 100px;
-    height: 100vh;
-    
+    margin-top: 50px;
 }
 
 .welcome_container {
@@ -27,15 +25,18 @@
     flex-direction: column;
     width: max(50%, 500px);
     height: max(50%, 500px);
+    padding: 20px;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.9);
     justify-content: center;
-    border-radius: 10px;;
+    border-radius: 10px;
 }
 
 .homescreen_message {
     order: 1;
     margin-bottom: 20px;
+    width: max(40%, 400px);
+    /* height: max(40%, 400px); */
 }
 
 .signup_component { 

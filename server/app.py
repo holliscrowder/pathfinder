@@ -42,7 +42,7 @@ class Signup(Resource):
             session["user_id"] = user.id
             
             # return user info
-            user_response = jsonify(user.to_dict("-goals"))
+            user_response = jsonify(user.to_dict())
             return make_response(user_response, 201)
             
         # check for errors
