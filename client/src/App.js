@@ -26,6 +26,80 @@ function App() {
       });
   }, []);
 
+  // fetch user goals
+  const [goals, setGoals] = useState([]);
+
+  const fetchGoals = () => {
+      fetch("/api/goals")
+      .then((response) => {
+          if (response.status === 200) {  
+          return response.json()
+          } else {
+          throw response
+          }
+      })
+      .then((data) => {
+          setGoals(data)
+      })
+      .catch(e => {
+          console.log(e)
+      });
+  }
+
+  useEffect(() => {
+      fetchGoals();
+  }, []);
+
+  // delete selected goal
+  const deleteGoal = (goal) => {
+      fetch("/api/goals", {
+          method: "DELETE",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(goal),
+      })
+      .then((response) => {
+          if (response.status === 200 || response.status === 204) {
+              console.log("Goal deleted successfully")
+              fetchGoals();
+          }
+          else {
+              return response.json().then((error) => {
+                  throw new Error(error.message || "Failed to delete goal");
+              });
+          }
+      })
+      .catch((error) => {
+          console.error("Error deleting goal:", error)
+      });
+  }
+
+  const updateGoal = (goal) => {
+    fetch("/api/goals", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(goal),
+    })
+    .then((response) => {
+        if (response.status === 200 || response.status === 204) {
+            console.log("Goal deleted successfully")
+            fetchGoals();
+        }
+        else {
+            return response.json().then((error) => {
+                throw new Error(error.message || "Failed to delete goal");
+            });
+        }
+    })
+    .catch((error) => {
+        console.error("Error deleting goal:", error)
+    });
+  }
+
+  // logout
   function handleLogout() {
     fetch("/api/logout", {
       method: "DELETE",
@@ -57,7 +131,10 @@ return (
             user,
             setUser,
             isLoggedIn,
-            handleLogout
+            handleLogout,
+            goals,
+            setGoals,
+            deleteGoal
           ]}
         />
       </main>

@@ -1,25 +1,24 @@
-.path_card {
+.path_card_detail_container {
     display: flex;
     flex-direction: column;
-    width: max(30%, 300px);
-    height: max(30%, 300px);
+    width: max(50%, 500px);
+    height: max(50%, 500px);
     padding: 10px;
     margin-bottom: 20px;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.9);
     justify-content: center;
     border-radius: 10px;
-    gap: 10px;
+    gap: 5px;
 }
 
-.path_card_link {
+.path_card_button {
     background-color: rgb(255,255,255);
     color: black;
     border: 0.5px solid;
     box-shadow: rgba(71, 77, 137, 0.5) 0 2px 5px 0;
     cursor: pointer;
     width: 120px;
-    padding: 5px;
-    border-radius: 5px;
+    margin-inline: 10px;
     text-decoration: none;
 }

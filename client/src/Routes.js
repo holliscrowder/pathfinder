@@ -5,6 +5,7 @@ import UpdatePassword from "./pages/UpdatePassword";
 import ErrorPage from "./pages/ErrorPage";
 import Login from "./pages/Login";
 import Paths from "./pages/Paths";
+import PathDetail from "./pages/PathDetail";
 
 const routes = [
   {
@@ -23,6 +24,10 @@ const routes = [
       {
         path: "/paths",
         element: <Paths />,
+      },
+      {
+        path: "/paths/:id",
+        element: <PathDetail />
       },
       {
         path: "/profile",
