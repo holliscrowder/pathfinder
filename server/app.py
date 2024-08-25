@@ -167,7 +167,7 @@ class Goals(Resource):
     
     # view goals
     def get(self):
-        if not session.get("user_id"):
+        if not session["user_id"]:
             return make_response({"error": "Not authorized."}, 401)
         
         # create goals array of all available goals for the user
@@ -177,13 +177,14 @@ class Goals(Resource):
         # format for JSON response
         if goals:
             goals_response = jsonify([goal.to_dict() for goal in goals])
+            print(goals_response)
             return make_response(goals_response, 200)
         else:
             return make_response({"error": "No content found for user goals"}, 401)
     
     # update goal status
     def patch(self):
-        if not session.get("user_id"):
+        if not session["user_id"]:
             return make_response({"error": "Not authorized"}, 401)
         
         updated_goal = request.get_json()
@@ -202,7 +203,7 @@ class Goals(Resource):
 
     # delete goal
     def delete(self):
-        if not session.get("user_id"):
+        if not session["user_id"]:
             return make_response({"error": "Not authorized"}, 401)
         
         delete_goal = request.get_json()
