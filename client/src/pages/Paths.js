@@ -13,7 +13,7 @@ export default function Paths () {
     return (
         <div className = "paths_screen_container">
             <div className = "paths_parent_container">
-                    <PathCardList className = "path_card_list" goals={goals} setGoals={setGoals} deleteGoal={deleteGoal}/>
+                <PathCardList className = "path_card_list" goals={goals} setGoals={setGoals} deleteGoal={deleteGoal}/>
             </div>
         </div>
     )

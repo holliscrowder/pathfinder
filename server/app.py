@@ -193,8 +193,9 @@ class Goals(Resource):
         goal = Goal.query.filter(Goal.id == updated_goal["id"]).first()
 
         if goal:
-            if updated_goal.get_json("status"):
-                goal.status = updated_goal.get_jsont("status")
+            if updated_goal["status"]:
+                goal.status = updated_goal["status"]
+                db.session.commit()
 
             updated_goal_response = jsonify(goal.to_dict())
             return make_response(updated_goal_response, 201)
@@ -217,10 +218,6 @@ class Goals(Resource):
 
         return make_response({"message": "204: No content"}, 204)
     
-class GoalByID(Resource):
-    def get(self, id):
-        goal = Goal.query.filter()
-
 api.add_resource(Signup, "/api/signup", endpoint = "signup")
 api.add_resource(CheckSession, "/api/check_session", endpoint = "check_session")
 api.add_resource(Login, "/api/login", endpoint = "login")

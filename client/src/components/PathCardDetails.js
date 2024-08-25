@@ -5,7 +5,7 @@ import "./PathCardDetails.css";
 
 export default function PathCardDetails() {
   const { id } = useParams();
-  const [, , , , goals, , deleteGoal] = useOutletContext();
+  const [, , , , goals, , deleteGoal, updateGoal] = useOutletContext();
 
   const goal = goals.find((goal) => goal.id == id);
 
@@ -20,7 +20,7 @@ export default function PathCardDetails() {
         <p><b>Title: </b>{goal.title}</p>
         <p><b>Description: </b> {goal.description}</p>
         <p><b>Current Status: </b> <i>{goal.status}</i></p>
-        <PathStatusDropdown />
+        <PathStatusDropdown updateGoal={updateGoal} goalId = {goal.id}/>
         <p><b>Topic: </b>{goal.topic}</p>
         <button 
           className="path_card_button"

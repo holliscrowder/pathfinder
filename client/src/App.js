@@ -75,27 +75,27 @@ function App() {
       });
   }
 
-  const updateGoal = (goal) => {
+  const updateGoal = (goalId, status) => {
     fetch("/api/goals", {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(goal),
+        body: JSON.stringify({"id": goalId, "status": status}),
     })
     .then((response) => {
-        if (response.status === 200 || response.status === 204) {
-            console.log("Goal deleted successfully")
+        if (response.ok) {
+            console.log("Goal status updated successfully")
             fetchGoals();
         }
         else {
             return response.json().then((error) => {
-                throw new Error(error.message || "Failed to delete goal");
+                throw new Error(error.message || "Failed to update goal status");
             });
         }
     })
     .catch((error) => {
-        console.error("Error deleting goal:", error)
+        console.error("Error updating goal status:", error)
     });
   }
 
@@ -134,7 +134,8 @@ return (
             handleLogout,
             goals,
             setGoals,
-            deleteGoal
+            deleteGoal, 
+            updateGoal
           ]}
         />
       </main>
