@@ -1,0 +1,43 @@
+.homescreen_container {
+    background-image: url("../images/pathfinder_home.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; 
+    overflow: hidden;
+    top: 0; left: 0; 
+    
+}
+
+.parent_welcome_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    height: 100vh;
+    
+}
+
+.welcome_container {
+    display: flex;
+    flex-direction: column;
+    width: max(50%, 500px);
+    height: max(50%, 500px);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    justify-content: center;
+    border-radius: 10px;;
+}
+
+.homescreen_message {
+    order: 1;
+    margin-bottom: 20px;
+}
+
+.signup_component { 
+    order: 2; 
+}

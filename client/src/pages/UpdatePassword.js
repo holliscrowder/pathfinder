@@ -2,21 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./Profile.css"
 import { useOutletContext } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
+import { PasswordResetForm } from "../components/PasswordResetForm";
 import { Link } from "react-router-dom";
 
-function Profile() {
+function UpdatePassword() {
     const [user, setUser, isLoggedIn] = useOutletContext();
     const [isUpdated, setIsUpdated] = useState(false);
-
-    const [showUpdateProfile, setShowUpdateProfile] = useState(false);
-    const toggleShowUpdateProfile = () => {
-      setShowUpdateProfile(!showUpdateProfile);
-    };
-
-    const [showUpdatePassword, setShowUpdatePassword] = useState(false);
-    const toggleShowUpdatePassword = () => {
-      setShowUpdatePassword(!showUpdatePassword);
-    };
 
     useEffect(() => {
         fetch("/api/check_session")
@@ -43,21 +34,27 @@ if (isUpdated === false) {
                 <h2>User Profile</h2>
             </div>
             <div className = "profile_body">
-              <ProfileCard className = "profile_card"/>
-              <br />
-              <p>You can update your password at any time.</p>
-              <br />
-              <Link
-                to={`/profile/update_password`}
-                className="button-update-profile"
-                onClick={toggleShowUpdatePassword}
-              >
-                Update Password
-              </Link>
-              <br />
+                <ProfileCard className = "profile_card"/>
+                <br />
+                <p>Enter your current password, then enter and confirm your new password.</p>
+                <br />
+                <PasswordResetForm className = "profile" user={user} setUser={setUser} isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
+                <br />
             </div>
         </>
       );
+    }
+else if (isUpdated === true) {
+        return (
+            <div className = "updated">
+                <p>Password Updated! What would you like to do next?</p>
+                <br />
+                    <Link to={"/"} className = "button-update-profile">Home</Link>
+                    <br />
+                    <br />
+                    <Link to={"/paths"} className = "button-update-profile">Paths</Link>  
+            </div>    
+            )
     }
   else if (!user) {
     return (
@@ -69,4 +66,4 @@ if (isUpdated === false) {
   }
 }
 
-export default Profile;
+export default UpdatePassword;

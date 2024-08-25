@@ -1,0 +1,10 @@
+.profile_card {
+    text-align: center;
+    padding: 4px 4px 4px 4px;
+    background-color: rgb(246, 240, 240, 0.5);
+    width: min(80%, 300px);
+    margin: auto;
+    /* position: absolute; left: 40%; */
+    border-radius: 8px;
+    box-shadow: rgba(180, 92, 124, 0.5) 0 2px 5px 0;
+}
