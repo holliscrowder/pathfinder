@@ -1,3 +1,4 @@
+
 .parent_login_container {
     background-image: url("../images/pathfinder_login.jpg");
     background-size: cover;
@@ -14,16 +15,16 @@
     
 }
 
-.NavBar {
+/* .NavBar {
     position: relative;
     z-index: 2;
-}
+} */
 
 .login_container {
     display: flex;
     flex-direction: column;
-    width: max(50%, 500px);
-    height: max(50%, 500px);
+    width: max(40%, 400px);
+    height: max(40%, 400px);
     text-align: center;
     background-color: rgba(255, 255, 255, 0.9);
     justify-content: center;

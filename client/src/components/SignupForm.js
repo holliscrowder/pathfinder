@@ -68,7 +68,6 @@ export const SignupForm = ({user, setUser}) => {
     return (
         <div className = "signup">
             <form onSubmit = {formik.handleSubmit}>
-                <label htmlFor = "username">Username</label>
                 <br />
                 <input 
                     id = "username"
@@ -78,7 +77,6 @@ export const SignupForm = ({user, setUser}) => {
                     value = {formik.values.username}
                 />
                 <p style = {{ color: "red" }}> {formik.errors.username}</p>
-                <label htmlFor = "password">Password</label>
                 <br />
                 <input 
                     id = "password"
@@ -89,7 +87,6 @@ export const SignupForm = ({user, setUser}) => {
                     onBlur={formik.handleBlur}
                 />
                 <p style = {{ color: "red" }}> {formik.errors.password}</p>
-                <label htmlFor = "passwordConfirm">Confirm Password</label>
                 <br />
                 <input 
                     id = "passwordConfirm"
@@ -101,6 +98,7 @@ export const SignupForm = ({user, setUser}) => {
                     // secureTextEntry
                 />
                 <p style = {{ color: "red" }}> {formik.errors.passwordConfirm}</p>
+                <br />
                 <button type = "submit">Sign Up</button>
             </form>
             {errorMessage && <div className = "error-message">{errorMessage}</div>}

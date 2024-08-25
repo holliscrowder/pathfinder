@@ -50,7 +50,6 @@ export const LoginForm = ({user, setUser}) => {
         <>
             <div className = "login">
                 <form onSubmit = {formik.handleSubmit}>
-                    <label htmlFor = "username">Username</label>
                     <br />
                     <input
                         id = "username"
@@ -60,7 +59,6 @@ export const LoginForm = ({user, setUser}) => {
                         value = {formik.values.username}
                     />
                     <p style = {{ color: "red" }}> {formik.errors.username}</p>
-                    <label htmlFor = "password">Password</label>
                     <br />
                     <input
                         id = "password"

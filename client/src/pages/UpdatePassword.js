@@ -29,19 +29,22 @@ function UpdatePassword() {
 
 if (isUpdated === false) {
     return (
-        <>
+      <div className = "parent_profile_container"> 
+        <div className = "profile_container">
             <div className = "profile_header">
                 <h2>User Profile</h2>
             </div>
             <div className = "profile_body">
                 <ProfileCard className = "profile_card"/>
                 <br />
-                <p>Enter your current password, then enter and confirm your new password.</p>
-                <br />
+                <p>Enter your current password</p>
+                <p>then enter and confirm your new password.</p>
+
                 <PasswordResetForm className = "profile" user={user} setUser={setUser} isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
                 <br />
             </div>
-        </>
+        </div>
+      </div>
       );
     }
 else if (isUpdated === true) {

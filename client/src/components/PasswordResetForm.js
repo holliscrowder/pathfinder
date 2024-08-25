@@ -68,7 +68,6 @@ export const PasswordResetForm = ({user, setUser, isUpdated, setIsUpdated}) => {
         <>
             <div className = "reset">
                 <form onSubmit = {formik.handleSubmit}>
-                <label htmlFor = "currentPassword">Current Password</label>
                     <br />
                     <input 
                         id = "currentPassword"
@@ -79,7 +78,7 @@ export const PasswordResetForm = ({user, setUser, isUpdated, setIsUpdated}) => {
                         onBlur={formik.handleBlur}
                     />
                     <p style = {{ color: "red" }}> {formik.errors.currentPassword}</p>
-                    <label htmlFor = "newPassword">New Password</label>
+                    {/* <label htmlFor = "newPassword">New Password</label> */}
                     <br />
                     <input 
                         id = "newPassword"
@@ -90,7 +89,7 @@ export const PasswordResetForm = ({user, setUser, isUpdated, setIsUpdated}) => {
                         onBlur={formik.handleBlur}
                     />
                     <p style = {{ color: "red" }}> {formik.errors.newPassword}</p>
-                    <label htmlFor = "newPasswordConfirm">Confirn New Password</label>
+                    {/* <label htmlFor = "newPasswordConfirm">Confirn New Password</label> */}
                     <br />
                     <input 
                         id = "newPasswordConfirm"
@@ -101,6 +100,7 @@ export const PasswordResetForm = ({user, setUser, isUpdated, setIsUpdated}) => {
                         onBlur={formik.handleBlur}
                     />
                     <p style = {{ color: "red" }}> {formik.errors.newPasswordConfirm}</p>
+                    <br></br>
                     <button type = "submit">Update Password</button>
                 </form>
                 {errorMessage && <div className = "error-message">{errorMessage}</div>}
