@@ -13,3 +13,7 @@
     top: 0; left: 0;
     z-index: 1;
 }
+
+.path_card_list {
+    margin-top: 20%;
+}

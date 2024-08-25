@@ -22,3 +22,9 @@
     margin-inline: 10px;
     text-decoration: none;
 }
+
+.goal_not_found {
+    background-color: rgb(255,255,255, 0.9);
+    padding: 20px;
+    border-radius: 5px;
+}

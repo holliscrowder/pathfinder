@@ -63,6 +63,7 @@ function App() {
           if (response.status === 200 || response.status === 204) {
               console.log("Goal deleted successfully")
               fetchGoals();
+              navigate("/paths")
           }
           else {
               return response.json().then((error) => {
@@ -75,6 +76,7 @@ function App() {
       });
   }
 
+  // update goal status
   const updateGoal = (goalId, status) => {
     fetch("/api/goals", {
         method: "PATCH",
@@ -113,6 +115,7 @@ function App() {
     })
     .then((data) => {
       setUser(null)
+      setGoals([])
       navigate("/")
     })
   }
@@ -135,7 +138,8 @@ return (
             goals,
             setGoals,
             deleteGoal, 
-            updateGoal
+            updateGoal,
+            fetchGoals
           ]}
         />
       </main>

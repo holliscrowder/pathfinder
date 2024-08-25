@@ -11,8 +11,9 @@ if __name__ == '__main__':
     with app.app_context():
         
         print("Deleting all records... ")
-        User.query.delete()
         Goal.query.delete()
+        User.query.delete()
+        
         
         print("Creating users...")
         user1 = User(username = "user1")

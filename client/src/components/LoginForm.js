@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 export const LoginForm = ({user, setUser}) => {
     const navigate = useNavigate();
+    const [, , , , , , , , fetchGoals] = useOutletContext();
 
     const [errorMessage, setErrorMessage] = useState('');
     const formSchema = yup.object().shape({
@@ -37,8 +38,9 @@ export const LoginForm = ({user, setUser}) => {
                 return response.json();
             })
             .then((data) => {
-                setUser(data)
-                navigate("/profile");
+                setUser(data);
+                fetchGoals();
+                navigate("/paths");
             })
             .catch((error) => {
                 setErrorMessage(error.message || 'An error occurred. Please try again later.');

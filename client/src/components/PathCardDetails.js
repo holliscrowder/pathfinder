@@ -11,7 +11,7 @@ export default function PathCardDetails() {
 
   // Handle case where goal is not found
   if (!goal) {
-    return <div>Goal not found</div>; 
+    return <div className = "goal_not_found">Goal not found</div>; 
   }
 
   return (
