@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Profile.css"
 import { useOutletContext } from "react-router-dom";
-import {ProfileForm} from "../components/ProfileForm";
-import ProfileCard from "../components/ProfileCard";
-import { PasswordResetForm } from "../components/PasswordResetForm";
 import { Link } from "react-router-dom";
 
 function Profile() {
@@ -41,34 +37,7 @@ function Profile() {
 if (isUpdated === false) {
     return (
         <>
-            <div className = "profile_header">
-                <h2>User Profile</h2>
-            </div>
-            <div className = "profile_body">
-              <ProfileCard className = "profile_card"/>
-              <br />
-              <p>You can update your user profile details at any time. </p>
-              <br />
-              <Link
-                to={`/profile/update_profile`}
-                className="button-update-profile"
-                onClick={toggleShowUpdateProfile}
-              >
-                Update Profile Details
-              </Link>
-              <br />
-              <br />
-              <p>You can update your password at any time.</p>
-              <br />
-              <Link
-                to={`/profile/update_password`}
-                className="button-update-profile"
-                onClick={toggleShowUpdatePassword}
-              >
-                Update Password
-              </Link>
-              <br />
-            </div>
+          <p>Profile</p>
         </>
       );
     }

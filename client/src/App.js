@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -26,17 +25,6 @@ function App() {
       });
   }, []);
 
-  // grab questions
-  const [questions, setQuestions] = useState("")
-
-  useEffect(() => {
-      fetch("/api/questions")
-        .then((r) => r.json())
-        .then((data) => {
-          setQuestions(data);
-        });
-    }, []);
-
   function handleLogout() {
     fetch("/api/logout", {
       method: "DELETE",
@@ -56,19 +44,20 @@ function App() {
 
 return (
     <div className = "App">
-      <div className = "NavBar">
-        <NavBar user={user} isLoggedIn={isLoggedIn}/>
-        {isLoggedIn ? <button className = "logout" onClick = {handleLogout}>Logout</button> : <></>}
-      </div>
-      {user ? <p className = "welcome">Welcome, <i>{user.username}</i>!</p> :<></>}
+      {isLoggedIn? 
+        <div className = "NavBar">
+          <NavBar user={user} isLoggedIn={isLoggedIn}/>
+          <button className = "logout" onClick = {handleLogout}>Logout</button>
+          <p className = "welcome">Welcome, <i>{user.username}</i></p>
+        </div> :
+        <></> }
       <main className = "Outlet">
         <Outlet 
           context = {[
             user,
             setUser,
             isLoggedIn,
-            handleLogout,
-            questions
+            handleLogout
           ]}
         />
       </main>
