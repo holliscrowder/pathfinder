@@ -1,5 +1,4 @@
-
-.parent_login_container {
+.login_screen_container {
     background-image: url("../images/pathfinder_login.jpg");
     background-size: cover;
     background-position: center;
@@ -12,36 +11,34 @@
     position: fixed; 
     overflow: hidden;
     top: 0; left: 0; 
-    
+    z-index: 1;
 }
 
-/* .NavBar {
-    position: relative;
-    z-index: 2;
-} */
+.parent_login_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
 
 .login_container {
     display: flex;
     flex-direction: column;
-    width: max(40%, 400px);
-    height: max(40%, 400px);
+    width: max(50%, 500px);
+    height: max(50%, 500px);
+    padding: 20px;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.9);
     justify-content: center;
     border-radius: 10px;
-    box-shadow: rgba(2, 0, 0, 0.5);
 }
 
 .homescreen_message {
     order: 1;
     margin-bottom: 20px;
     width: max(40%, 400px);
+    /* height: max(40%, 400px); */
 }
 
-.login { 
+.signup_component { 
     order: 2; 
-}
-
-.signup_instead {
-    order: 3;
 }
