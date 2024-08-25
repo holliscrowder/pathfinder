@@ -1,6 +1,6 @@
 import PathCard from "./PathCard";
 
-export default function PathCardList({goals, setGoals}){
+export default function PathCardList({goals, setGoals, deleteGoal}){
     console.log(goals)
     return (
         <div className = "path_card_list">
@@ -11,6 +11,7 @@ export default function PathCardList({goals, setGoals}){
                             <PathCard
                                 key = {goal.id}
                                 goal = {goal}
+                                deleteGoal = {deleteGoal}
                             />
                         )
                     })

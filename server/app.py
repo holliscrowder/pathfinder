@@ -216,6 +216,10 @@ class Goals(Resource):
         db.session.commit()
 
         return make_response({"message": "204: No content"}, 204)
+    
+class GoalByID(Resource):
+    def get(self, id):
+        goal = Goal.query.filter()
 
 api.add_resource(Signup, "/api/signup", endpoint = "signup")
 api.add_resource(CheckSession, "/api/check_session", endpoint = "check_session")
