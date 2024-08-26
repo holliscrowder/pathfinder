@@ -7,7 +7,7 @@ Welcome to PathFinder! Start your journey towrad achieving your goals today. Whe
 ---
 
 ## Features
-PathFinder users can create a profile with authentication, create new paths, view, update, and delete existing paths, and view path counts by status. 
+PathFinder users are greated with an AI-generated motivational message on the homescreen. Users can create a profile with authentication, create new paths, view, update, and delete existing paths, and view path counts by status. 
 
 _Sign Up:_ Create a user profile on the sign up page by entering a username and creating and confirming a password.
 
@@ -15,7 +15,7 @@ _Login:_ Login with the username and password created during signup.
 
 _Logout:_ Logout any time from any page via the 'Logout' button.
 
-_Home:_ View the PathFinder mission statement.
+_Home:_ View an AI-generated motivational quote and the PathFinder mission statement.
 
 _Paths:_ View existing paths and create new paths on the Paths page. Click the "see details" link to view more details about a given path.
 
