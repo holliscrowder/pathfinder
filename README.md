@@ -26,7 +26,14 @@ _Profile:_ View user profile details and path counts, and update your password, 
 _Leave:_ Leave PathFinder any time using the leave button.
 
 ## Demo
-![Demo GIF](client/public/patfinder_gif.gif)
+![Demo GIF](src/images/pathfinder_gif.gif)
+
+## Screenshots
+![Sign Up](client/public/SignUp.png)
+![Login](client/public/Login.png)
+![Paths](client/public/Paths.png)
+![Path Detail](client/public/PathDetail.png)
+![Profile](client/public/Profile.png)
 
 ## Development Instructions
 
