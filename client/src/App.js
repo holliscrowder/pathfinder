@@ -101,6 +101,31 @@ function App() {
     });
   }
 
+  // create new goal
+  const createNewGoal = (goal) => {
+    fetch("/api/goals", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(goal),
+    })
+    .then((response) => {
+        if (response.ok) {
+            console.log("Goal created successfully")
+            fetchGoals();
+        }
+        else {
+            return response.json().then((error) => {
+                throw new Error(error.message || "Failed to create goal");
+            });
+        }
+    })
+    .catch((error) => {
+        console.error("Error creating goal:", error)
+    });
+}
+
   // logout
   function handleLogout() {
     fetch("/api/logout", {
@@ -139,7 +164,8 @@ return (
             setGoals,
             deleteGoal, 
             updateGoal,
-            fetchGoals
+            fetchGoals,
+            createNewGoal
           ]}
         />
       </main>

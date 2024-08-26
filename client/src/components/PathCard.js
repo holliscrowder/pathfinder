@@ -13,7 +13,7 @@ export default function PathCard({ goal, deleteGoal }) {
           className="path_card_link"
           to={`/paths/${goal.id}`}
         >
-          See details
+          See Details
         </Link>
       </div>
     </li>
