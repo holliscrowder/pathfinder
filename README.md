@@ -26,7 +26,7 @@ _Profile:_ View user profile details and path counts, and update your password, 
 _Leave:_ Leave PathFinder any time using the leave button.
 
 ## Demo
-![Demo GIF](client/public/pensyv_website_gif.gif)
+![Demo GIF](client/public/patfinder_gif.gif)
 
 ## Development Instructions
 
