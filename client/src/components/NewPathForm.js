@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { useFormik } from "formik";
+import { useFormik} from "formik";
 import * as yup from "yup";
 import { useOutletContext } from "react-router-dom";
 // import "./PathCard.css";
@@ -71,7 +71,8 @@ export const NewPathForm = () => {
         validationSchema: formSchema,
         validateOnChange: false,
         validateOnBlur: false,
-        onSubmit: (values) => {
+        onSubmit: (values, {resetForm}) => {
+            resetForm();
             fetch("/api/goals", {
                 method: "POST",
                 headers: {
@@ -81,6 +82,9 @@ export const NewPathForm = () => {
             }).then((response) => {
                 if (!response.ok) {
                     return response.json().then((errorData) => {
+                        if (values.status === "Path Status") {
+                            throw new Error("Must choose path status.")
+                        }
                         throw new Error(errorData.user_status || "Network request not ok.")
                     })
                 }
@@ -133,7 +137,7 @@ export const NewPathForm = () => {
                     ))}
                 </select>
                 <p style = {{ color: "red" }}> {formik.errors.status}</p>
-                <br/>
+                <br />
                 <select 
                     id = "topic"
                     name = "topic"

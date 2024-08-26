@@ -6,7 +6,7 @@ export default function PathCardList({goals, setGoals, deleteGoal}){
     return (
         <div className = "path_card_list">
             <ul className = "cards">
-                <CreatePathCard className = "new_path_card"/>
+                <CreatePathCard />
                 {goals
                     .map((goal) => {
                         return (

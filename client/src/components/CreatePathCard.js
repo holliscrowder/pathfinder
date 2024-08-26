@@ -10,9 +10,12 @@ export default function CreatePathCard() {
   const goal = goals.find((goal) => goal.id == id);
 
   return (
-    <li className="new_path_card">
-      <h1>Create New Path</h1>
-        <NewPathForm />
-    </li>
+    <>
+        <li className="new_path_card">
+        <h1>Create New Path</h1>
+            <NewPathForm />
+        </li>
+        <br />
+    </>
   );
 }
