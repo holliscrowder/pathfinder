@@ -5,6 +5,10 @@
 # Remote library imports
 from flask import request, session, jsonify, make_response, render_template
 from flask_restful import Resource
+from langchain_anthropic import ChatAnthropic
+from langchain.prompts import ChatPromptTemplate
+from langchain.schema import HumanMessage
+import asyncio
 
 # Local imports
 from config import app, db, api
@@ -210,12 +214,22 @@ class Goals(Resource):
 
         return make_response({"message": "204: No content"}, 204)
     
+class Motivation(Resource):
+    def get(self):
+        llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", cache=False)
+        template = ChatPromptTemplate.from_messages([HumanMessage("Give a short motivational quote that inspires the user to chase their goals. Do NOT provide any context, only the quote")])
+        prompt = template.format_messages()
+        result = asyncio.run(llm.ainvoke(prompt))
+    
+        return make_response({"message": result.content}, 200)
+    
 api.add_resource(Signup, "/api/signup", endpoint = "signup")
 api.add_resource(CheckSession, "/api/check_session", endpoint = "check_session")
 api.add_resource(Login, "/api/login", endpoint = "login")
 api.add_resource(Logout, "/api/logout", endpoint = "logout")
 api.add_resource(Users, "/api/users", endpoint = "users")
 api.add_resource(Goals, "/api/goals", endpoint = "goals")
+api.add_resource(Motivation, "/api/motivation", endpoint = "motivation")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

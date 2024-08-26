@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import { PasswordResetForm } from "../components/PasswordResetForm";
 import { Link } from "react-router-dom";
+import "./Profile.css";
 
 function UpdatePassword() {
     const [user, setUser, isLoggedIn] = useOutletContext();
@@ -49,7 +50,7 @@ if (isUpdated === false) {
     }
 else if (isUpdated === true) {
         return (
-            <div className = "updated">
+            <div className = "profile_container">
                 <p>Password Updated! What would you like to do next?</p>
                 <br />
                     <Link to={"/"} className = "button-update-profile">Home</Link>

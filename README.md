@@ -23,7 +23,7 @@ _Path Details:_ View path details and update path status or delete the path enti
 
 _Profile:_ View user profile details and path counts, and update your password, if desired.
 
-_Leave:_ Leave alpha testing by entering the associated email and username.
+_Leave:_ Leave PathFinder any time using the leave button.
 
 ## Demo
 ![Demo GIF](client/public/pensyv_website_gif.gif)
@@ -34,14 +34,23 @@ _Leave:_ Leave alpha testing by entering the associated email and username.
 2. Install frontend dependencies using _npm install --prefix client_
 3. Run the frontend development server using _npm start --prefix client_
 4. Access the website through your browser at _http://localhost:3000_
-4. Install backend dependencies using _pipenv install --prefix client_
-5. Run the backend virtual environment using _pipenv shell_
+4. Run the backend virtual environment using _pipenv shell_
+5. Install backend dependencies using _pipenv install --prefix server_
 6. Run the backend development server using _python server/app.py_
-7. Access the backend API via proxy through your browser at _http://localhost:5555/_
-8. Seed mock user data using _python server/seed.py_
+7. Access the backend API via proxy through your browser at _http://localhost:5555/api_
+8. Install PostgreSQL locally (if you don't have it already) to use development database _https://www.w3schools.com/postgresql/postgresql_install.php_
+9. Create a .env file in _server_ with a DATABASE_URI=postgresql://postgres:postgres@localhost:5433/postgres environment variable
+10. While in _server_, run the following:
+  mkdir data
+  pg_ctl -D data start
+11. Seed mock user data using _python server/seed.py_
 
-## Resources - Pensyv Website API
-The Pensyv frontend is connected to the backend via API, resources for which are defined in _server/app.py_. Resources (routes) and supported methods include:
+-- Integrate Claude --
+1. Procure Claude (Antrhopic) API key and add ANTHROPIC_API_KEY=your_key_here to your .env file
+
+
+## Resources - PathFinder Website API
+The PathFinder frontend is connected to the backend via API, resources for which are defined in _server/app.py_. Resources (routes) and supported methods include:
 
 _signup_:
   * post()
@@ -55,16 +64,15 @@ _login_:
 _logout_:
   * delete()
 
-_questions_:
-  * get()
-
 _users_:
   * patch()
   * delete()
 
-_questionnaires_:
+_goals_:
   * get()
   * post()
+  * patch()
+  * delete()
 
 ## Programs Used
 Frontend:
@@ -73,12 +81,11 @@ Frontend:
 - React: Frontend framework for building interactive user interfaces
   - React Router: Library for handling navigation within a React application
   - Formik, yup: Library for handling and validating form submissions
-  - Recharts: Library for handling graphical data visualization
 
 Backend:
 - Python
 - Flask: Micro web framework used for developing web applications using python, implemented on Wekzeug and Jinja2.
-  - SQLAlchemy: Python SQL toolkit and ORM (Object Relational Mapper) used for accessing the database
+  - SQLAlchemy: Python SQL toolkit and ORM (Object Relational Mapper) used for accessing the local database
   - Flask-restful: Flask extension used for building REST APIs
   - Flask-migrate: Flask extension used for handling SQLAlchemy database migrations for Flask applications using Alembic
   - Flask-cors: Flask extension used for enabling Corss Origin Resource Sharing on all routes
