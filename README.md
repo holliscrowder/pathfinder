@@ -4,6 +4,8 @@
 
 Welcome to PathFinder! Start your journey towrad achieving your goals today. Whether you're setting new aspirations or tracking progress on your existing path, PathFinder is here to guide you every step of the way. Let's find your path to success together!
 
+The app is live on: _https://pathfinder-q3rc.onrender.com_ (note: the app is on a free tier, so the request could take up to 50 seconds the first time)
+
 ---
 
 ## Features
@@ -55,6 +57,30 @@ _Leave:_ Leave PathFinder any time using the leave button.
 -- Integrate Claude --
 1. Procure Claude (Antrhopic) API key and add ANTHROPIC_API_KEY=your_key_here to your .env file
 
+-- Deploy to Render --
+1. Set up a free render account using your github account on _https://dasshboard.render.com/_ and create a database.
+2. Click the "New Web Service" button in the "New +" dropdown.
+3. Connect your github account and select your project repo. Give the application a name.
+4. For the build command field, paste the following:
+  pip install -r requirements.txt && npm install --prefix client && npm run build --prefix client
+5. For the start command field, paste the following:
+  gunicorn --chdir server app:app
+6. Click "Create Web Service" to create your web service. It will fail, because we have more to do.
+7. Go to the environment tab, and add these:
+  Key: CI (that's an i, not an L)
+  Value: false
+
+  Key: DATABASE_URI
+  Value: postgresql://your-postgresql-internal-url  (get this from your postgresql service you made earlier - remember to change postgres to postgresql at the start of the url you copy from there)
+
+  Key: PYTHON_VERSION
+  Value: 3.8.13
+
+  Key: SECRET_KEY
+  For the value on this one, run  python -c 'import secrets; print(secrets.token_hex())' in your terminal and paste in the result
+
+  If you have other environment variables for 3rd party api keys or anything else in your backend, add those here too.
+8. Re-deploy! Your app is now live.
 
 ## Resources - PathFinder Website API
 The PathFinder frontend is connected to the backend via API, resources for which are defined in _server/app.py_. Resources (routes) and supported methods include:
