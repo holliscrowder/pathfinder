@@ -23,12 +23,24 @@
     display: flex;
     flex-direction: column;
     width: max(30%, 200px);
-    height: max(40%, 350px);
+    height: max(40%, 400px);
     text-align: center;
     background-color: rgba(255, 255, 255, 0.9);
     justify-content: center;
     border-radius: 10px;
+    
+}
 
+.button-update-profile {
+    background-color: rgb(255,255,255);
+    color: black;
+    border: 0.5px solid;
+    box-shadow: rgba(71, 77, 137, 0.5) 0 2px 5px 0;
+    cursor: pointer;
+    width: 120px;
+    padding: 5px;
+    border-radius: 5px;
+    text-decoration: none;
 }
 
 .homescreen_message {

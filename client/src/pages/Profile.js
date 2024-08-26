@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
 // import "./Profile.css"
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate, Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
-import { Link } from "react-router-dom";
 
 function Profile() {
-    const [user, setUser, isLoggedIn] = useOutletContext();
     const [isUpdated, setIsUpdated] = useState(false);
+    const navigate = useNavigate();
+    const [
+      user,
+      setUser,
+      isLoggedIn,
+      handleLogout,
+      goals,
+      setGoals,
+      deleteGoal, 
+      updateGoal,
+      fetchGoals,
+      createNewGoal
+    ] = useOutletContext();
 
     const [showUpdateProfile, setShowUpdateProfile] = useState(false);
     const toggleShowUpdateProfile = () => {
@@ -35,6 +46,25 @@ function Profile() {
           });
       }, []);
 
+    function handleLeave() {
+      fetch("/api/users", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      }).then((response) => {
+        if (!response.ok && response.status != 204) {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.error || "Network response was not ok")
+          })
+        }
+        return;
+      }).then((data) => {
+        handleLogout();
+        navigate("/");
+      })
+    }
 
 if (isUpdated === false) {
     return (
@@ -56,6 +86,8 @@ if (isUpdated === false) {
                 Update Password
               </Link>
               <br />
+              <br />
+              <button onClick={handleLeave}>Leave PathFinder</button>
             </div>
         </div>
       </div>

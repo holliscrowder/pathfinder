@@ -1,24 +1,27 @@
-# Pensyv Website
+# PathFinder
 
 ## Introduction
 
-Our mission is simple... we want to help you measure what matters most: mental health. Pensyv is developing an app to help you log and visualize mental health over time. Alpha testers can participate by creating a user profile and filling out a simple daily questionnaire in less time than it takes to listen to their favorite song. Users can track their questionnaire reponses over time via data visualizations on the homepage. User and questionnaire data are posted to the backend, where they are then stored on a secure database. Privacy is a top priority; users can leave alpha testing anytime by removing their profile and all associated data. Future versions of the app will incorporate sophisticated statistical analyses and will enable users to opt in to data sharing for macro-level research. 
+Welcome to PathFinder! Start your journey towrad achieving your goals today. Whether you're setting new aspirations or tracking progress on your existing path, PathFinder is here to guide you every step of the way. Let's find your path to success together!
 
 ---
 
 ## Features
+PathFinder users can create a profile with authentication, create new paths, view, update, and delete existing paths, and view path counts by status. 
 
-_Sign Up:_ Create a user profile on the sign up page by entering an email and username.
+_Sign Up:_ Create a user profile on the sign up page by entering a username and creating and confirming a password.
 
-_Login:_ Login with the email entered during sign up.
+_Login:_ Login with the username and password created during signup.
 
 _Logout:_ Logout any time from any page via the 'Logout' button.
 
-_Survey:_ Fill out the daily questionnaire by answering the five questions on a scale of 0-4.
+_Home:_ View the PathFinder mission statement.
 
-_Home:_ View the pensyv mission statement when logged out, and view graphical data visualizations when logged in.
+_Paths:_ View existing paths and create new paths on the Paths page. Click the "see details" link to view more details about a given path.
 
-_Profile:_ View user profile details and update, if desired.
+_Path Details:_ View path details and update path status or delete the path entirely.
+
+_Profile:_ View user profile details and path counts, and update your password, if desired.
 
 _Leave:_ Leave alpha testing by entering the associated email and username.
 
